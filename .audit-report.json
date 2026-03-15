@@ -1,0 +1,15 @@
+{
+  "timestamp": "2026-03-15T20:59:29.823Z",
+  "stats": {
+    "routes": 13,
+    "e2eTests": 1
+  },
+  "issues": [],
+  "recommendations": [],
+  "summary": {
+    "totalIssues": 0,
+    "criticalIssues": 0,
+    "warnings": 0,
+    "recommendations": 0
+  }
+}

@@ -12,7 +12,10 @@ import {
   type LucideIcon,
   Mail,
   MessageSquare,
+  Package,
+  Palette,
   ReceiptText,
+  ScrollText,
   ShoppingBag,
   SquareArrowUpRight,
   Users,
@@ -90,6 +93,35 @@ export const sidebarItems: NavGroup[] = [
   },
   {
     id: 2,
+    label: "Design Assets",
+    items: [
+      {
+        title: "Components",
+        url: "/components",
+        icon: Package,
+        isNew: true,
+      },
+      {
+        title: "Guidelines",
+        url: "/guidelines",
+        icon: ScrollText,
+        isNew: true,
+        subItems: [
+          { title: "Colors", url: "/guidelines/colors" },
+          { title: "Typography", url: "/guidelines/typography" },
+          { title: "Layout", url: "/guidelines/layout", comingSoon: true },
+        ],
+      },
+      {
+        title: "Tokens",
+        url: "/tokens",
+        icon: Palette,
+        comingSoon: true,
+      },
+    ],
+  },
+  {
+    id: 3,
     label: "Pages",
     items: [
       {
@@ -148,7 +180,7 @@ export const sidebarItems: NavGroup[] = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     label: "Misc",
     items: [
       {

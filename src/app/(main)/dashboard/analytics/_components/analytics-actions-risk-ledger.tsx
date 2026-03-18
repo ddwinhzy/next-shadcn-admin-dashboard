@@ -10,6 +10,7 @@ import {
   type SortingState,
   useReactTable,
 } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -38,130 +39,130 @@ const LEDGER_ROWS: LedgerRow[] = [
     id: 1,
     account: "Oscorp Labs",
     dealId: "OPP-489",
-    stage: "Legal",
-    blocker: "Close date overdue by 35 days",
+    stage: "法务",
+    blocker: "关单日已逾期 35 天",
     owner: "Leila Zhang",
     idleDays: 36,
-    closeVariance: "35d overdue",
+    closeVariance: "逾期 35 天",
     priority: "Escalate",
-    nextAction: "Join next customer call and reset close plan.",
+    nextAction: "参加下次客户电话并重置关单计划。",
     riskScore: 81,
   },
   {
     id: 2,
     account: "Hooli AI",
     dealId: "OPP-475",
-    stage: "Qualification",
-    blocker: "Close date overdue by 28 days",
+    stage: "资质确认",
+    blocker: "关单日已逾期 28 天",
     owner: "Omar Ali",
     idleDays: 33,
-    closeVariance: "28d overdue",
+    closeVariance: "逾期 28 天",
     priority: "Coach",
-    nextAction: "Review deal strategy and unblock stage exit.",
+    nextAction: "审查商机策略并解除阶段推进阻碍。",
     riskScore: 76,
   },
   {
     id: 3,
     account: "Globex Systems",
     dealId: "OPP-447",
-    stage: "Qualification",
-    blocker: "Close date overdue by 37 days",
+    stage: "资质确认",
+    blocker: "关单日已逾期 37 天",
     owner: "Sofia Bautista",
     idleDays: 34,
-    closeVariance: "37d overdue",
+    closeVariance: "逾期 37 天",
     priority: "Coach",
-    nextAction: "Review deal strategy and unblock stage exit.",
+    nextAction: "审查商机策略并解除阶段推进阻碍。",
     riskScore: 75,
   },
   {
     id: 4,
     account: "Umbrella Corp",
     dealId: "OPP-459",
-    stage: "Legal",
-    blocker: "Close date overdue by 24 days",
+    stage: "法务",
+    blocker: "关单日已逾期 24 天",
     owner: "Leila Zhang",
     idleDays: 29,
-    closeVariance: "24d overdue",
+    closeVariance: "逾期 24 天",
     priority: "Coach",
-    nextAction: "Review deal strategy and unblock stage exit.",
+    nextAction: "审查商机策略并解除阶段推进阻碍。",
     riskScore: 72,
   },
   {
     id: 5,
     account: "Acme Industries",
     dealId: "OPP-421",
-    stage: "Negotiation",
-    blocker: "Close date overdue by 32 days",
+    stage: "谈判",
+    blocker: "关单日已逾期 32 天",
     owner: "Leila Zhang",
     idleDays: 31,
-    closeVariance: "32d overdue",
+    closeVariance: "逾期 32 天",
     priority: "Coach",
-    nextAction: "Review deal strategy and unblock stage exit.",
+    nextAction: "审查商机策略并解除阶段推进阻碍。",
     riskScore: 69,
   },
   {
     id: 6,
     account: "Wayne Devices",
     dealId: "OPP-471",
-    stage: "Proposal",
-    blocker: "Close date overdue by 22 days",
+    stage: "方案",
+    blocker: "关单日已逾期 22 天",
     owner: "Sofia Bautista",
     idleDays: 32,
-    closeVariance: "22d overdue",
+    closeVariance: "逾期 22 天",
     priority: "Reforecast",
-    nextAction: "Adjust forecast category and expected close.",
+    nextAction: "调整预测分类及预期关单日期。",
     riskScore: 56,
   },
   {
     id: 7,
     account: "Aperture Health",
     dealId: "OPP-497",
-    stage: "Proposal",
-    blocker: "Close date overdue by 20 days",
+    stage: "方案",
+    blocker: "关单日已逾期 20 天",
     owner: "Omar Ali",
     idleDays: 30,
-    closeVariance: "20d overdue",
+    closeVariance: "逾期 20 天",
     priority: "Reforecast",
-    nextAction: "Adjust forecast category and expected close.",
+    nextAction: "调整预测分类及预期关单日期。",
     riskScore: 50,
   },
   {
     id: 8,
     account: "Northwind Labs",
     dealId: "OPP-438",
-    stage: "Proposal",
-    blocker: "Close date overdue by 14 days",
+    stage: "方案",
+    blocker: "关单日已逾期 14 天",
     owner: "Julian Singh",
     idleDays: 23,
-    closeVariance: "14d overdue",
+    closeVariance: "逾期 14 天",
     priority: null,
-    nextAction: "No immediate intervention required.",
+    nextAction: "暂无需立即干预。",
     riskScore: 42,
   },
   {
     id: 9,
     account: "Stark Logistics",
     dealId: "OPP-463",
-    stage: "Negotiation",
-    blocker: "Close date overdue by 10 days",
+    stage: "谈判",
+    blocker: "关单日已逾期 10 天",
     owner: "Julian Singh",
     idleDays: 21,
-    closeVariance: "10d overdue",
+    closeVariance: "逾期 10 天",
     priority: null,
-    nextAction: "No immediate intervention required.",
+    nextAction: "暂无需立即干预。",
     riskScore: 39,
   },
   {
     id: 10,
     account: "Soylent Foods",
     dealId: "OPP-482",
-    stage: "Negotiation",
-    blocker: "Close date overdue by 5 days",
+    stage: "谈判",
+    blocker: "关单日已逾期 5 天",
     owner: "Julian Singh",
     idleDays: 24,
-    closeVariance: "5d overdue",
+    closeVariance: "逾期 5 天",
     priority: null,
-    nextAction: "No immediate intervention required.",
+    nextAction: "暂无需立即干预。",
     riskScore: 31,
   },
 ];
@@ -172,10 +173,16 @@ const priorityTone: Record<Exclude<LedgerPriority, null>, string> = {
   Reforecast: "border-amber-500/35 bg-amber-500/10 text-amber-700",
 };
 
+const priorityLabel: Record<Exclude<LedgerPriority, null>, string> = {
+  Escalate: "上报",
+  Coach: "辅导",
+  Reforecast: "重新预测",
+};
+
 const ledgerColumns: ColumnDef<LedgerRow>[] = [
   {
     accessorKey: "account",
-    header: "Account",
+    header: "客户",
     cell: ({ row }) => (
       <div className="flex flex-col gap-1">
         <p className="font-medium text-sm">{row.original.account}</p>
@@ -187,32 +194,32 @@ const ledgerColumns: ColumnDef<LedgerRow>[] = [
   },
   {
     accessorKey: "blocker",
-    header: "Blocker",
+    header: "阻碍因素",
     cell: ({ row }) => <div className="max-w-44 text-xs">{row.original.blocker}</div>,
   },
   {
     accessorKey: "owner",
-    header: "Owner",
+    header: "负责人",
     cell: ({ row }) => <span className="text-xs">{row.original.owner}</span>,
   },
   {
     accessorKey: "idleDays",
-    header: "Idle (days)",
+    header: "停滞（天）",
     cell: ({ row }) => <span className="text-xs tabular-nums">{row.original.idleDays}d</span>,
   },
   {
     accessorKey: "closeVariance",
-    header: "Close variance",
+    header: "关单偏差",
     cell: ({ row }) => <span className="text-xs tabular-nums">{row.original.closeVariance}</span>,
   },
   {
     accessorKey: "nextAction",
-    header: "Next action",
+    header: "下一步行动",
     cell: ({ row }) => (
       <div className="flex max-w-64 flex-col gap-1">
         {row.original.priority ? (
-          <Badge variant="outline" className={cn("text-[10px] uppercase", priorityTone[row.original.priority])}>
-            {row.original.priority}
+          <Badge variant="outline" className={cn("text-[10px]", priorityTone[row.original.priority])}>
+            {priorityLabel[row.original.priority]}
           </Badge>
         ) : null}
         <p className="text-xs">{row.original.nextAction}</p>
@@ -229,7 +236,7 @@ const ledgerColumns: ColumnDef<LedgerRow>[] = [
           className="-mr-2 h-8 px-2 text-xs"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Risk Ladder
+          风险梯度
         </Button>
       </div>
     ),
@@ -253,6 +260,7 @@ const ledgerColumns: ColumnDef<LedgerRow>[] = [
 ];
 
 export function ActionsRiskLedger() {
+  const t = useTranslations("analytics.riskLedger");
   const [sorting, setSorting] = React.useState<SortingState>([{ id: "riskScore", desc: true }]);
 
   const table = useReactTable({
@@ -268,24 +276,24 @@ export function ActionsRiskLedger() {
   return (
     <Card className="shadow-xs">
       <CardHeader>
-        <CardTitle>Revenue Risk Ledger</CardTitle>
-        <CardDescription>Accounts under pressure with blocker, next action, and owner responsibility.</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
         <CardAction>
           <Badge variant="outline" className="font-medium tabular-nums">
-            {LEDGER_ROWS.length} Accounts
+            {t("accountsCount", { count: LEDGER_ROWS.length })}
           </Badge>
         </CardAction>
       </CardHeader>
 
       <CardContent className="space-y-4">
         <div className="grid gap-3 rounded-lg border bg-muted/20 p-3 text-sm sm:grid-cols-4 sm:divide-x sm:divide-border/60">
-          <LedgerStat label="Critical accounts" value="1" detail="Risk Ladder >= 80 (current window)" />
-          <LedgerStat label="Escalations due" value="1" detail="Next 7 days" />
-          <LedgerStat label="Median inactivity" value="31d" detail="Current filter window" />
+          <LedgerStat label={t("criticalAccounts")} value="1" detail={t("criticalDetail")} />
+          <LedgerStat label={t("escalationsDue")} value="1" detail={t("escalationsDetail")} />
+          <LedgerStat label={t("medianInactivity")} value="31d" detail={t("inactivityDetail")} />
           <LedgerStat
-            label="Overdue revenue"
+            label={t("overdueRevenue")}
             value={formatCurrency(1084000, { noDecimals: true })}
-            detail="Close date already exceeded"
+            detail={t("overdueDetail")}
           />
         </div>
 

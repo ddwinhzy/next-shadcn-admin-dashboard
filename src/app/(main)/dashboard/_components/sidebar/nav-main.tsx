@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { ChevronRight, MailIcon, PlusCircleIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -31,9 +32,10 @@ interface NavMainProps {
   readonly items: readonly NavGroup[];
 }
 
-const IsComingSoon = () => (
-  <span className="ml-auto rounded-md bg-gray-200 px-2 py-1 text-xs dark:text-gray-800">Soon</span>
-);
+const IsComingSoon = () => {
+  const t = useTranslations("nav");
+  return <span className="ml-auto rounded-md bg-gray-200 px-2 py-1 text-xs dark:text-gray-800">{t("comingSoon")}</span>;
+};
 
 const NavItemExpanded = ({
   item,
@@ -144,6 +146,7 @@ const NavItemCollapsed = ({
 export function NavMain({ items }: NavMainProps) {
   const path = usePathname();
   const { state, isMobile } = useSidebar();
+  const t = useTranslations("nav");
 
   const isItemActive = (url: string, subItems?: NavMainItem["subItems"]) => {
     if (subItems?.length) {
@@ -163,11 +166,11 @@ export function NavMain({ items }: NavMainProps) {
           <SidebarMenu>
             <SidebarMenuItem className="flex items-center gap-2">
               <SidebarMenuButton
-                tooltip="Quick Create"
+                tooltip={t("quickCreate")}
                 className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
               >
                 <PlusCircleIcon />
-                <span>Quick Create</span>
+                <span>{t("quickCreate")}</span>
               </SidebarMenuButton>
               <Button
                 size="icon"
@@ -175,7 +178,7 @@ export function NavMain({ items }: NavMainProps) {
                 variant="outline"
               >
                 <MailIcon />
-                <span className="sr-only">Inbox</span>
+                <span className="sr-only">{t("inbox")}</span>
               </Button>
             </SidebarMenuItem>
           </SidebarMenu>

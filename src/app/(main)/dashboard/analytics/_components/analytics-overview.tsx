@@ -22,10 +22,10 @@ type RiskView = "risk-view" | "momentum" | "quality";
 type FilterToggleKey = "enterpriseOnly" | "stalledOnly" | "overdueOnly" | "includeRenewals";
 
 const FILTER_OPTIONS: Array<{ key: FilterToggleKey; label: string; summaryLabel: string }> = [
-  { key: "enterpriseOnly", label: "Enterprise only", summaryLabel: "Enterprise" },
-  { key: "stalledOnly", label: "Stalled deals (>14 days)", summaryLabel: "Stalled" },
-  { key: "overdueOnly", label: "Closing date exceeded", summaryLabel: "Overdue" },
-  { key: "includeRenewals", label: "Include renewals", summaryLabel: "Renewals" },
+  { key: "enterpriseOnly", label: "仅企业客户", summaryLabel: "企业" },
+  { key: "stalledOnly", label: "停滞商机（>14天）", summaryLabel: "停滞" },
+  { key: "overdueOnly", label: "已超预计关单日", summaryLabel: "逾期" },
+  { key: "includeRenewals", label: "含续约", summaryLabel: "续约" },
 ];
 
 const riskViews: Array<{
@@ -35,45 +35,45 @@ const riskViews: Array<{
 }> = [
   {
     value: "risk-view",
-    label: "Risk view",
-    description: "Early warnings",
+    label: "风险视图",
+    description: "早期预警",
   },
   {
     value: "momentum",
-    label: "Momentum",
-    description: "Trend direction",
+    label: "势能",
+    description: "趋势方向",
   },
   {
     value: "quality",
-    label: "Quality",
-    description: "Pipeline hygiene",
+    label: "质量",
+    description: "管道卫生",
   },
 ];
 
 const RISK_SUMMARY_METRICS = [
   {
     key: "stalled",
-    label: "Stalled Deals",
+    label: "停滞商机",
     value: "8",
-    comparatorLabel: "vs previous period",
+    comparatorLabel: "对比上期",
   },
   {
     key: "risk",
-    label: "Revenue at Risk",
+    label: "收入风险",
     value: "$1,151,000",
-    comparatorLabel: "vs previous period",
+    comparatorLabel: "对比上期",
   },
   {
     key: "win-rate",
-    label: "Win Rate Trend",
+    label: "赢单率趋势",
     value: "+8.3pp",
-    comparatorLabel: "vs previous period",
+    comparatorLabel: "对比上期",
   },
   {
     key: "cycle",
-    label: "Sales Cycle Drift",
-    value: "+2.3 days",
-    comparatorLabel: "vs previous period",
+    label: "销售周期偏移",
+    value: "+2.3 天",
+    comparatorLabel: "对比上期",
   },
 ] as const;
 
@@ -116,7 +116,7 @@ export function AnalyticsOverview() {
           <DateRangePicker value={dateRange} onChange={handleDateRangeChange} />
           <Button variant="secondary">
             <Download />
-            Export
+            导出
           </Button>
         </div>
       </div>
@@ -161,7 +161,7 @@ function SummaryRow({ revenueSeries }: { revenueSeries: Array<{ day: string; rev
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
       <div className="space-y-2">
         <div>
-          <div className="font-medium text-muted-foreground text-sm">Revenue</div>
+          <div className="font-medium text-muted-foreground text-sm">收入</div>
           <div className="font-semibold text-4xl tabular-nums tracking-tight">$1,248,000</div>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -170,7 +170,7 @@ function SummaryRow({ revenueSeries }: { revenueSeries: Array<{ day: string; rev
         </div>
 
         <div className="flex flex-wrap items-center gap-2 text-muted-foreground text-sm">
-          <span>Previous $1,141,000</span>
+          <span>上期 $1,141,000</span>
           <Badge variant="outline" className="font-medium text-xs">
             Risk Ladder 30
           </Badge>
@@ -190,14 +190,14 @@ function SummaryRow({ revenueSeries }: { revenueSeries: Array<{ day: string; rev
               />
             </ComposedChart>
           </ChartContainer>
-          <span className="text-muted-foreground text-xs">Selected range</span>
+          <span className="text-muted-foreground text-xs">所选时间段</span>
         </div>
       </div>
 
       <Card className="py-4 shadow-xs lg:col-span-2">
         <CardHeader className="px-4">
-          <CardTitle>Risk summary</CardTitle>
-          <CardDescription>Core risk signals vs previous period</CardDescription>
+          <CardTitle>风险摘要</CardTitle>
+          <CardDescription>核心风险信号对比上期</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-1 gap-4 px-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0 lg:divide-x lg:[&>div:first-child]:pl-0 lg:[&>div:last-child]:pr-0 lg:[&>div]:px-5">
           {RISK_SUMMARY_METRICS.map((item) => (
@@ -276,7 +276,7 @@ function FiltersPopover({
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button variant="outline" aria-expanded={open}>
-            Filters
+            筛选
             <Badge className="tabular-nums" variant="secondary">
               {activeCount}
             </Badge>
@@ -285,7 +285,7 @@ function FiltersPopover({
         <PopoverContent align="start" className="w-72">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-sm">Filters</h3>
+              <h3 className="font-semibold text-sm">筛选条件</h3>
               <Badge variant="outline" className="font-medium text-xs tabular-nums">
                 Risk Ladder 30
               </Badge>
@@ -306,7 +306,7 @@ function FiltersPopover({
       </Popover>
 
       <span className="text-muted-foreground text-sm">
-        Showing: <span className="font-medium">{summarizeFilterState(selectedFilters)}</span>
+        显示：<span className="font-medium">{summarizeFilterState(selectedFilters)}</span>
       </span>
     </div>
   );
@@ -335,7 +335,7 @@ function FilterToggle({
 
 function summarizeFilterState(selectedFilters: FilterToggleKey[]) {
   if (selectedFilters.length === 0) {
-    return "All deals";
+    return "全部商机";
   }
   return FILTER_OPTIONS.filter((item) => selectedFilters.includes(item.key))
     .map((item) => item.summaryLabel)

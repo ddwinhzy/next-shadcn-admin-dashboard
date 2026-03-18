@@ -1,53 +1,56 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { formatCurrency } from "@/lib/utils";
 
 const expenses = [
   {
     key: "housing",
-    label: "Housing",
+    label: "住房",
     amount: 1650,
   },
   {
     key: "utilities",
-    label: "Utilities",
+    label: "水电",
     amount: 420,
   },
   {
     key: "groceries",
-    label: "Groceries",
+    label: "餐饮",
     amount: 560,
   },
   {
     key: "transportation",
-    label: "Transport",
+    label: "交通",
     amount: 740,
   },
   {
     key: "subscriptions",
-    label: "Subscriptions",
+    label: "订阅",
     amount: 260,
   },
   {
     key: "healthcare",
-    label: "Healthcare",
+    label: "医疗",
     amount: 390,
   },
   {
     key: "other",
-    label: "Other",
+    label: "其他",
     amount: 980,
   },
 ];
 
 export function SpendingBreakdown() {
+  const t = useTranslations("finance.spending");
   const total = expenses.reduce((sum, item) => sum + item.amount, 0);
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Spending Breakdown</CardTitle>
-        <CardDescription>Expense distribution by category.</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-1">

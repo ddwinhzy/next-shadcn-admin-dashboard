@@ -38,6 +38,23 @@ import { useIsMobile } from "@/hooks/use-mobile";
 
 import type { ProposalSectionsRow } from "./schema";
 
+const STATUS_LABELS: Record<string, string> = {
+  Done: "完成",
+  "In Progress": "进行中",
+  "Not Started": "未开始",
+};
+
+const TYPE_LABELS: Record<string, string> = {
+  "Table of Contents": "目录",
+  "Executive Summary": "执行摘要",
+  "Technical Approach": "技术方案",
+  Design: "设计",
+  Capabilities: "能力",
+  "Focus Documents": "重点文件",
+  Narrative: "叙述",
+  "Cover Page": "封面",
+};
+
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -70,7 +87,7 @@ function DragHandle({ id }: { id: number }) {
       className="size-7 text-muted-foreground hover:bg-transparent"
     >
       <GripVerticalIcon />
-      <span className="sr-only">Drag to reorder</span>
+      <span className="sr-only">拖动排序</span>
     </Button>
   );
 }
@@ -88,7 +105,7 @@ function ProposalSectionDetailViewer({ item }: { item: ProposalSectionsRow }) {
       <DrawerContent>
         <DrawerHeader className="gap-1">
           <DrawerTitle>{item.header}</DrawerTitle>
-          <DrawerDescription>Showing total visitors for the last 6 months</DrawerDescription>
+          <DrawerDescription>显示过去 6 个月的访客总数</DrawerDescription>
         </DrawerHeader>
         <div className="flex flex-col gap-4 overflow-y-auto px-4 text-sm">
           {!isMobile && (
@@ -133,53 +150,50 @@ function ProposalSectionDetailViewer({ item }: { item: ProposalSectionsRow }) {
               <Separator />
               <div className="grid gap-2">
                 <div className="flex gap-2 font-medium leading-none">
-                  Trending up by 5.2% this month <TrendingUpIcon />
+                  本月上涨 5.2% <TrendingUpIcon />
                 </div>
-                <div className="text-muted-foreground">
-                  Showing total visitors for the last 6 months. This is just some random text to test the layout. It
-                  spans multiple lines and should wrap around.
-                </div>
+                <div className="text-muted-foreground">过去 6 个月访客总数。</div>
               </div>
               <Separator />
             </>
           )}
           <form className="flex flex-col gap-4">
             <div className="flex flex-col gap-3">
-              <Label htmlFor="header">Header</Label>
+              <Label htmlFor="header">标题</Label>
               <Input id="header" defaultValue={item.header} />
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="type">Type</Label>
+                <Label htmlFor="type">类型</Label>
                 <Select defaultValue={item.type}>
                   <SelectTrigger id="type" className="w-full">
-                    <SelectValue placeholder="Select a type" />
+                    <SelectValue placeholder="选择类型" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Table of Contents">Table of Contents</SelectItem>
-                      <SelectItem value="Executive Summary">Executive Summary</SelectItem>
-                      <SelectItem value="Technical Approach">Technical Approach</SelectItem>
-                      <SelectItem value="Design">Design</SelectItem>
-                      <SelectItem value="Capabilities">Capabilities</SelectItem>
-                      <SelectItem value="Focus Documents">Focus Documents</SelectItem>
-                      <SelectItem value="Narrative">Narrative</SelectItem>
-                      <SelectItem value="Cover Page">Cover Page</SelectItem>
+                      <SelectItem value="Table of Contents">目录</SelectItem>
+                      <SelectItem value="Executive Summary">执行摘要</SelectItem>
+                      <SelectItem value="Technical Approach">技术方案</SelectItem>
+                      <SelectItem value="Design">设计</SelectItem>
+                      <SelectItem value="Capabilities">能力</SelectItem>
+                      <SelectItem value="Focus Documents">重点文件</SelectItem>
+                      <SelectItem value="Narrative">叙述</SelectItem>
+                      <SelectItem value="Cover Page">封面</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="status">Status</Label>
+                <Label htmlFor="status">状态</Label>
                 <Select defaultValue={item.status}>
                   <SelectTrigger id="status" className="w-full">
-                    <SelectValue placeholder="Select a status" />
+                    <SelectValue placeholder="选择状态" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Done">Done</SelectItem>
-                      <SelectItem value="In Progress">In Progress</SelectItem>
-                      <SelectItem value="Not Started">Not Started</SelectItem>
+                      <SelectItem value="Done">完成</SelectItem>
+                      <SelectItem value="In Progress">进行中</SelectItem>
+                      <SelectItem value="Not Started">未开始</SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -187,19 +201,19 @@ function ProposalSectionDetailViewer({ item }: { item: ProposalSectionsRow }) {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-3">
-                <Label htmlFor="target">Target</Label>
+                <Label htmlFor="target">目标</Label>
                 <Input id="target" defaultValue={item.target} />
               </div>
               <div className="flex flex-col gap-3">
-                <Label htmlFor="limit">Limit</Label>
+                <Label htmlFor="limit">上限</Label>
                 <Input id="limit" defaultValue={item.limit} />
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <Label htmlFor="reviewer">Reviewer</Label>
+              <Label htmlFor="reviewer">审阅人</Label>
               <Select defaultValue={item.reviewer}>
                 <SelectTrigger id="reviewer" className="w-full">
-                  <SelectValue placeholder="Select a reviewer" />
+                  <SelectValue placeholder="选择审阅人" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -213,9 +227,9 @@ function ProposalSectionDetailViewer({ item }: { item: ProposalSectionsRow }) {
           </form>
         </div>
         <DrawerFooter>
-          <Button>Submit</Button>
+          <Button>提交</Button>
           <DrawerClose asChild>
-            <Button variant="outline">Done</Button>
+            <Button variant="outline">完成</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
@@ -227,9 +241,9 @@ function createInlineSaveHandler(header: string) {
   return (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
-      loading: `Saving ${header}`,
-      success: "Done",
-      error: "Error",
+      loading: `正在保存 ${header}`,
+      success: "已保存",
+      error: "保存失败",
     });
   };
 }
@@ -249,7 +263,7 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label="全选"
         />
       </div>
     ),
@@ -258,7 +272,7 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label="选择行"
         />
       </div>
     ),
@@ -267,24 +281,24 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
   },
   {
     accessorKey: "header",
-    header: "Header",
+    header: "标题",
     cell: ({ row }) => <ProposalSectionDetailViewer item={row.original} />,
     enableHiding: false,
   },
   {
     accessorKey: "type",
-    header: "Section Type",
+    header: "模块类型",
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="px-1.5 text-muted-foreground">
-          {row.original.type}
+          {TYPE_LABELS[row.original.type] ?? row.original.type}
         </Badge>
       </div>
     ),
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "状态",
     cell: ({ row }) => (
       <Badge variant="outline" className="px-1.5 text-muted-foreground">
         {row.original.status === "Done" ? (
@@ -292,17 +306,17 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
         ) : (
           <LoaderIcon />
         )}
-        {row.original.status}
+        {STATUS_LABELS[row.original.status] ?? row.original.status}
       </Badge>
     ),
   },
   {
     accessorKey: "target",
-    header: () => <div className="w-full text-right">Target</div>,
+    header: () => <div className="w-full text-right">目标</div>,
     cell: ({ row }) => (
       <form onSubmit={createInlineSaveHandler(row.original.header)}>
         <Label htmlFor={`${row.original.id}-target`} className="sr-only">
-          Target
+          目标
         </Label>
         <Input
           id={`${row.original.id}-target`}
@@ -314,11 +328,11 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
   },
   {
     accessorKey: "limit",
-    header: () => <div className="w-full text-right">Limit</div>,
+    header: () => <div className="w-full text-right">上限</div>,
     cell: ({ row }) => (
       <form onSubmit={createInlineSaveHandler(row.original.header)}>
         <Label htmlFor={`${row.original.id}-limit`} className="sr-only">
-          Limit
+          上限
         </Label>
         <Input
           id={`${row.original.id}-limit`}
@@ -330,7 +344,7 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
   },
   {
     accessorKey: "reviewer",
-    header: "Reviewer",
+    header: "审阅人",
     cell: ({ row }) => {
       const isAssigned = row.original.reviewer !== "Assign reviewer";
 
@@ -341,7 +355,7 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
       return (
         <>
           <Label htmlFor={`${row.original.id}-reviewer`} className="sr-only">
-            Reviewer
+            审阅人
           </Label>
           <Select>
             <SelectTrigger
@@ -349,7 +363,7 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
               className="w-38 **:data-[slot=select-value]:block **:data-[slot=select-value]:truncate"
               size="sm"
             >
-              <SelectValue placeholder="Assign reviewer" />
+              <SelectValue placeholder="指定审阅人" />
             </SelectTrigger>
             <SelectContent align="end">
               <SelectGroup>
@@ -369,15 +383,15 @@ export const proposalSectionsColumns: ColumnDef<ProposalSectionsRow>[] = [
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon">
             <EllipsisVerticalIcon />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">打开菜单</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuItem>Favorite</DropdownMenuItem>
+          <DropdownMenuItem>编辑</DropdownMenuItem>
+          <DropdownMenuItem>复制</DropdownMenuItem>
+          <DropdownMenuItem>收藏</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+          <DropdownMenuItem variant="destructive">删除</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     ),

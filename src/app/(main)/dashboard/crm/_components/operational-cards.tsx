@@ -1,6 +1,7 @@
 "use client";
 
 import { Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Funnel, FunnelChart, LabelList } from "recharts";
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,13 +12,20 @@ import { cn, formatCurrency } from "@/lib/utils";
 
 import { actionItems, regionSalesData, salesPipelineChartConfig, salesPipelineChartData } from "./crm.config";
 
+const PRIORITY_LABELS: Record<string, string> = {
+  High: "高",
+  Medium: "中",
+  Low: "低",
+};
+
 export function OperationalCards() {
+  const t = useTranslations("crm.operational");
   const totalSales = regionSalesData.reduce((sum, region) => sum + region.sales, 0);
   return (
     <div className="grid grid-cols-1 gap-4 *:data-[slot=card]:shadow-xs sm:grid-cols-2 xl:grid-cols-3">
       <Card>
         <CardHeader>
-          <CardTitle>Sales Pipeline</CardTitle>
+          <CardTitle>{t("salesPipeline")}</CardTitle>
         </CardHeader>
         <CardContent className="size-full">
           <ChartContainer config={salesPipelineChartConfig} className="size-full">
@@ -30,13 +38,13 @@ export function OperationalCards() {
           </ChartContainer>
         </CardContent>
         <CardFooter>
-          <p className="text-muted-foreground text-xs">Leads increased by 18.2% since last month.</p>
+          <p className="text-muted-foreground text-xs">{t("leadsIncreased")}</p>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Sales by Region</CardTitle>
+          <CardTitle>{t("salesByRegion")}</CardTitle>
           <CardDescription className="font-medium tabular-nums">
             {formatCurrency(totalSales, { noDecimals: true })}
           </CardDescription>
@@ -71,16 +79,16 @@ export function OperationalCards() {
         </CardContent>
         <CardFooter>
           <div className="flex justify-between gap-1 text-muted-foreground text-xs">
-            <span>{regionSalesData.length} regions tracked</span>
+            <span>{t("regionsTracked", { count: regionSalesData.length })}</span>
             <span>•</span>
-            <span>{regionSalesData.filter((r) => r.isPositive).length} regions growing</span>
+            <span>{t("regionsGrowing", { count: regionSalesData.filter((r) => r.isPositive).length })}</span>
           </div>
         </CardFooter>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Action Items</CardTitle>
+          <CardTitle>{t("actionItems")}</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2.5">
@@ -97,7 +105,7 @@ export function OperationalCards() {
                       item.priority === "Low" && "bg-green-500/20 text-green-500",
                     )}
                   >
-                    {item.priority}
+                    {PRIORITY_LABELS[item.priority] ?? item.priority}
                   </span>
                 </div>
                 <div className="font-medium text-muted-foreground text-xs">{item.desc}</div>

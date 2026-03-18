@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowDownLeft, ArrowUpRight } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Bar, BarChart, CartesianGrid, ReferenceLine, XAxis, YAxis } from "recharts";
 
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,34 +27,35 @@ const chartData = [
 
 const chartConfig = {
   income: {
-    label: "Income",
+    label: "收入",
     color: "var(--chart-1)",
   },
   expenses: {
-    label: "Expenses",
+    label: "支出",
     color: "var(--chart-2)",
   },
 } as ChartConfig;
 
 export function CashFlowOverview() {
+  const t = useTranslations("finance.cashFlow");
   const totalIncome = chartData.reduce((acc, item) => acc + item.income, 0);
   const totalExpenses = chartData.reduce((acc, item) => acc + Math.abs(item.expenses), 0);
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Cash Flow Overview</CardTitle>
-        <CardDescription>Monthly income and expenses with net cash impact.</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
         <CardAction>
           <Select defaultValue="this-year">
             <SelectTrigger size="sm" className="w-37">
-              <SelectValue placeholder="Select period" />
+              <SelectValue placeholder={t("thisYear")} />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                <SelectItem value="this-month">This Month</SelectItem>
-                <SelectItem value="last-6-months">Last 6 Months</SelectItem>
-                <SelectItem value="ytd">Year to Date</SelectItem>
-                <SelectItem value="this-year">This Year</SelectItem>
+                <SelectItem value="this-month">{t("thisMonth")}</SelectItem>
+                <SelectItem value="last-6-months">{t("last6Months")}</SelectItem>
+                <SelectItem value="ytd">{t("yearToDate")}</SelectItem>
+                <SelectItem value="this-year">{t("thisYear")}</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -67,7 +69,7 @@ export function CashFlowOverview() {
               <ArrowDownLeft className="size-6 stroke-background" />
             </div>
             <div>
-              <p className="text-muted-foreground text-xs uppercase">Income</p>
+              <p className="text-muted-foreground text-xs uppercase">{t("income")}</p>
               <p className="font-medium tabular-nums">{formatCurrency(totalIncome, { noDecimals: true })}</p>
             </div>
           </div>
@@ -77,7 +79,7 @@ export function CashFlowOverview() {
               <ArrowUpRight className="size-6 stroke-background" />
             </div>
             <div>
-              <p className="text-muted-foreground text-xs uppercase">Expenses</p>
+              <p className="text-muted-foreground text-xs uppercase">{t("expenses")}</p>
               <p className="font-medium tabular-nums">{formatCurrency(totalExpenses, { noDecimals: true })}</p>
             </div>
           </div>

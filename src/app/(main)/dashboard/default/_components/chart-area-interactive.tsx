@@ -2,6 +2,7 @@
 
 import * as React from "react";
 
+import { useTranslations } from "next-intl";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -108,20 +109,21 @@ const chartData = [
 
 const chartConfig = {
   visitors: {
-    label: "Visitors",
+    label: "访客",
   },
   desktop: {
-    label: "Desktop",
+    label: "桌面端",
     color: "var(--chart-1)",
   },
   mobile: {
-    label: "Mobile",
+    label: "移动端",
     color: "var(--chart-2)",
   },
 } satisfies ChartConfig;
 
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
+  const t = useTranslations("dashboard.chart");
   const [timeRange, setTimeRange] = React.useState("90d");
 
   React.useEffect(() => {
@@ -147,10 +149,10 @@ export function ChartAreaInteractive() {
   return (
     <Card className="@container/card">
       <CardHeader>
-        <CardTitle>Total Visitors</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <CardDescription>
-          <span className="@[540px]/card:block hidden">Total for the last 3 months</span>
-          <span className="@[540px]/card:hidden">Last 3 months</span>
+          <span className="@[540px]/card:block hidden">{t("descriptionFull")}</span>
+          <span className="@[540px]/card:hidden">{t("descriptionShort")}</span>
         </CardDescription>
         <CardAction>
           <ToggleGroup
@@ -160,9 +162,9 @@ export function ChartAreaInteractive() {
             variant="outline"
             className="@[767px]/card:flex hidden *:data-[slot=toggle-group-item]:px-4!"
           >
-            <ToggleGroupItem value="90d">Last 3 months</ToggleGroupItem>
-            <ToggleGroupItem value="30d">Last 30 days</ToggleGroupItem>
-            <ToggleGroupItem value="7d">Last 7 days</ToggleGroupItem>
+            <ToggleGroupItem value="90d">{t("last3Months")}</ToggleGroupItem>
+            <ToggleGroupItem value="30d">{t("last30Days")}</ToggleGroupItem>
+            <ToggleGroupItem value="7d">{t("last7Days")}</ToggleGroupItem>
           </ToggleGroup>
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger
@@ -170,18 +172,18 @@ export function ChartAreaInteractive() {
               size="sm"
               aria-label="Select a value"
             >
-              <SelectValue placeholder="Last 3 months" />
+              <SelectValue placeholder={t("last3Months")} />
             </SelectTrigger>
             <SelectContent className="rounded-xl">
               <SelectGroup>
                 <SelectItem value="90d" className="rounded-lg">
-                  Last 3 months
+                  {t("last3Months")}
                 </SelectItem>
                 <SelectItem value="30d" className="rounded-lg">
-                  Last 30 days
+                  {t("last30Days")}
                 </SelectItem>
                 <SelectItem value="7d" className="rounded-lg">
-                  Last 7 days
+                  {t("last7Days")}
                 </SelectItem>
               </SelectGroup>
             </SelectContent>

@@ -116,6 +116,17 @@ If you’d like a more detailed example of this setup, check out the [Next Coloc
 
 ---
 
+## 国际化 (i18n)
+
+本项目使用 `next-intl` 实现简体中文本地化。如需新增翻译文案或了解架构设计，请参阅：
+
+- [docs/i18n/README.md](./docs/i18n/README.md) — 总览与快速入门
+- [docs/i18n/adding-translations.md](./docs/i18n/adding-translations.md) — 如何新增翻译 Key
+- [docs/i18n/server-vs-client.md](./docs/i18n/server-vs-client.md) — Server vs Client 翻译 API 选择规则
+- [docs/i18n/validation-schemas.md](./docs/i18n/validation-schemas.md) — Zod 表单校验消息的翻译模式
+
+---
+
 ## Questions & Support
 
 - Report bugs, suggestions, or issues via [GitHub Issues](https://github.com/arhamkhnz/next-shadcn-admin-dashboard/issues)

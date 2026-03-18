@@ -26,7 +26,7 @@ export const recentLeadsColumns: ColumnDef<RecentLeadRow>[] = [
         <Checkbox
           checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
+          aria-label="全选"
         />
       </div>
     ),
@@ -35,7 +35,7 @@ export const recentLeadsColumns: ColumnDef<RecentLeadRow>[] = [
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
+          aria-label="选择行"
         />
       </div>
     ),
@@ -43,34 +43,34 @@ export const recentLeadsColumns: ColumnDef<RecentLeadRow>[] = [
   },
   {
     accessorKey: "id",
-    header: "Ref",
+    header: "编号",
     cell: ({ row }) => <span className="tabular-nums">{row.original.id}</span>,
     enableHiding: false,
   },
   {
     accessorKey: "name",
-    header: "Name",
+    header: "姓名",
     cell: ({ row }) => row.original.name,
     enableHiding: false,
   },
   {
     accessorKey: "company",
-    header: "Company",
+    header: "公司",
     cell: ({ row }) => row.original.company,
   },
   {
     accessorKey: "status",
-    header: "Status",
+    header: "状态",
     cell: ({ row }) => <Badge variant="secondary">{row.original.status}</Badge>,
   },
   {
     accessorKey: "source",
-    header: "Source",
+    header: "来源",
     cell: ({ row }) => <Badge variant="outline">{row.original.source}</Badge>,
   },
   {
     accessorKey: "lastActivity",
-    header: "Last Activity",
+    header: "最近活动",
     cell: ({ row }) => <span className="text-muted-foreground tabular-nums">{row.original.lastActivity}</span>,
   },
   {
@@ -80,18 +80,18 @@ export const recentLeadsColumns: ColumnDef<RecentLeadRow>[] = [
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="flex size-8 text-muted-foreground">
             <EllipsisVertical />
-            <span className="sr-only">Open menu</span>
+            <span className="sr-only">打开菜单</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
           <DropdownMenuGroup>
-            <DropdownMenuItem>View</DropdownMenuItem>
-            <DropdownMenuItem>Assign</DropdownMenuItem>
-            <DropdownMenuItem>Archive</DropdownMenuItem>
+            <DropdownMenuItem>查看</DropdownMenuItem>
+            <DropdownMenuItem>指定审阅人</DropdownMenuItem>
+            <DropdownMenuItem>归档</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive">删除</DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>

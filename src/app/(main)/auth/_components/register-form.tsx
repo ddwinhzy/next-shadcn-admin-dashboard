@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
@@ -9,18 +10,20 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
-const formSchema = z
-  .object({
-    email: z.string().email({ message: "Please enter a valid email address." }),
-    password: z.string().min(6, { message: "Password must be at least 6 characters." }),
-    confirmPassword: z.string().min(6, { message: "Confirm Password must be at least 6 characters." }),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match.",
-    path: ["confirmPassword"],
-  });
-
 export function RegisterForm() {
+  const t = useTranslations("auth");
+
+  const formSchema = z
+    .object({
+      email: z.string().email({ message: t("validation.emailInvalid") }),
+      password: z.string().min(6, { message: t("validation.passwordMin") }),
+      confirmPassword: z.string().min(6, { message: t("validation.confirmPasswordMin") }),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t("validation.passwordsMismatch"),
+      path: ["confirmPassword"],
+    });
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -48,7 +51,7 @@ export function RegisterForm() {
           name="email"
           render={({ field, fieldState }) => (
             <Field className="gap-1.5" data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="register-email">Email Address</FieldLabel>
+              <FieldLabel htmlFor="register-email">{t("emailAddress")}</FieldLabel>
               <Input
                 {...field}
                 id="register-email"
@@ -66,7 +69,7 @@ export function RegisterForm() {
           name="password"
           render={({ field, fieldState }) => (
             <Field className="gap-1.5" data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="register-password">Password</FieldLabel>
+              <FieldLabel htmlFor="register-password">{t("password")}</FieldLabel>
               <Input
                 {...field}
                 id="register-password"
@@ -84,7 +87,7 @@ export function RegisterForm() {
           name="confirmPassword"
           render={({ field, fieldState }) => (
             <Field className="gap-1.5" data-invalid={fieldState.invalid}>
-              <FieldLabel htmlFor="register-confirm-password">Confirm Password</FieldLabel>
+              <FieldLabel htmlFor="register-confirm-password">{t("confirmPassword")}</FieldLabel>
               <Input
                 {...field}
                 id="register-confirm-password"
@@ -99,7 +102,7 @@ export function RegisterForm() {
         />
       </FieldGroup>
       <Button className="w-full" type="submit">
-        Register
+        {t("registerButton")}
       </Button>
     </form>
   );

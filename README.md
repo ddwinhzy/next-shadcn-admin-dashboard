@@ -21,7 +21,8 @@ I’ve taken design inspiration from various sources. If you’d like credit for
 - Flexible layouts (collapsible sidebar, variable content widths)  
 - Authentication flows and screens  
 - Prebuilt dashboards (Default, CRM, Finance) with more coming soon  
-- Role-Based Access Control (RBAC) with config-driven UI and multi-tenant support *(planned)*  
+- Role-Based Access Control (RBAC) with config-driven UI and multi-tenant support *(planned)*
+- 简体中文本地化（[`next-intl`](https://next-intl-docs.vercel.app/) without routing mode）
 
 > [!NOTE]
 > The default dashboard uses the **shadcn neutral** theme.  

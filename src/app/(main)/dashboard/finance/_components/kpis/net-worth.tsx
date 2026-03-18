@@ -15,7 +15,7 @@ export function NetWorth() {
             <span className="grid size-7 place-content-center rounded-sm bg-muted">
               <SaudiRiyal className="size-5" />
             </span>
-            Net Worth
+            净资产
           </div>
         </CardTitle>
       </CardHeader>
@@ -25,12 +25,12 @@ export function NetWorth() {
             <p className="font-medium text-xl tabular-nums">{formatCurrency(84250, { noDecimals: true })}</p>
             <span className="text-xs">+$3,680 MoM</span>
           </div>
-          <p className="text-muted-foreground text-xs">This month</p>
+          <p className="text-muted-foreground text-xs">本月</p>
         </div>
 
         <Separator />
 
-        <p className="text-muted-foreground text-xs">Across all linked accounts</p>
+        <p className="text-muted-foreground text-xs">跨所有关联账户</p>
       </CardContent>
     </Card>
   );

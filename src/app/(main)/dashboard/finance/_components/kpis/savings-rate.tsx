@@ -14,7 +14,7 @@ export function SavingsRate() {
             <span className="grid size-7 place-content-center rounded-sm bg-muted">
               <HandCoins className="size-5" />
             </span>
-            Savings Rate
+            储蓄率
           </div>
         </CardTitle>
       </CardHeader>
@@ -24,12 +24,12 @@ export function SavingsRate() {
             <p className="font-medium text-xl tabular-nums">32%</p>
             <span className="text-xs">+3.5% MoM</span>
           </div>
-          <p className="text-muted-foreground text-xs">This month · After expenses</p>
+          <p className="text-muted-foreground text-xs">本月 · 税后</p>
         </div>
 
         <Separator />
 
-        <p className="text-muted-foreground text-xs">Above your average</p>
+        <p className="text-muted-foreground text-xs">高于您的平均水平</p>
       </CardContent>
     </Card>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Bar, CartesianGrid, ComposedChart, Dot, LabelList, Line, ReferenceLine, XAxis, YAxis } from "recharts";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,15 +8,15 @@ import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } f
 
 const forecastChartConfig = {
   closedWon: {
-    label: "Closed Won",
+    label: "已关单",
     color: "var(--chart-1)",
   },
   weightedPipeline: {
-    label: "Weighted Pipeline",
+    label: "加权管道",
     color: "var(--chart-2)",
   },
   target: {
-    label: "Target",
+    label: "目标",
     color: "var(--muted-foreground)",
   },
 } satisfies ChartConfig;
@@ -44,6 +45,7 @@ const CHART_DATA: TrendPoint[] = [
 ];
 
 export function DriversForecastTarget() {
+  const t = useTranslations("analytics.forecastTarget");
   const chartData = CHART_DATA;
   const pipelineMin = Math.min(...CHART_DATA.map((point) => point.weightedPipeline));
   const pipelineMax = Math.max(...CHART_DATA.map((point) => point.weightedPipeline));
@@ -51,14 +53,14 @@ export function DriversForecastTarget() {
   return (
     <Card className="shadow-xs">
       <CardHeader>
-        <CardTitle>Forecast vs Target</CardTitle>
-        <CardDescription>12-week trend with attainment context</CardDescription>
+        <CardTitle>{t("title")}</CardTitle>
+        <CardDescription>{t("description")}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <MetricChip label="Attainment" value="72.4%" note="closed won / monthly target" />
-          <MetricChip label="Weighted Pipeline" value="$1,284,000" note="vs $668,000 remaining" />
-          <MetricChip label="Forecast Confidence" value="81.0%" note="volatility-adjusted confidence" />
+          <MetricChip label={t("attainment")} value="72.4%" note={t("attainmentNote")} />
+          <MetricChip label={t("weightedPipeline")} value="$1,284,000" note={t("weightedPipelineNote")} />
+          <MetricChip label={t("forecastConfidence")} value="81.0%" note={t("forecastConfidenceNote")} />
         </div>
         <ChartContainer config={forecastChartConfig} className="h-68 w-full">
           <ComposedChart data={chartData} margin={{ left: 4, right: 8, top: 8, bottom: 0 }}>

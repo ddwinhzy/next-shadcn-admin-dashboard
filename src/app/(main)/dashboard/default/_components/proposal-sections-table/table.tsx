@@ -38,6 +38,7 @@ import {
   PlusIcon,
   Settings2,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,15 +58,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { DraggableProposalSectionsRow, proposalSectionsColumns } from "./columns";
 import type { ProposalSectionsRow } from "./schema";
 
-const VIEW_OPTIONS = [
-  { value: "outline", label: "Outline" },
-  { value: "past-performance", label: "Past Performance" },
-  { value: "key-personnel", label: "Key Personnel" },
-  { value: "focus-documents", label: "Focus Documents" },
-] as const;
-
-type ViewOption = (typeof VIEW_OPTIONS)[number]["value"];
+type ViewOption = "outline" | "past-performance" | "key-personnel" | "focus-documents";
 export function ProposalSectionsTable({ data: initialData }: { data: ProposalSectionsRow[] }) {
+  const t = useTranslations("dashboard.table");
+  const viewOptions = [
+    { value: "outline" as ViewOption, label: t("outline") },
+    { value: "past-performance" as ViewOption, label: t("pastPerformance") },
+    { value: "key-personnel" as ViewOption, label: t("keyPersonnel") },
+    { value: "focus-documents" as ViewOption, label: t("focusDocuments") },
+  ];
   const [data, setData] = React.useState(() => initialData);
   const [activeView, setActiveView] = React.useState<ViewOption>("outline");
   const [rowSelection, setRowSelection] = React.useState({});
@@ -126,15 +127,15 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
     >
       <div className="flex items-center justify-between">
         <Label htmlFor="view-selector" className="sr-only">
-          View
+          {t("viewButton")}
         </Label>
         <Select value={activeView} onValueChange={(value) => setActiveView(value as ViewOption)}>
           <SelectTrigger className="flex @4xl/main:hidden w-fit" size="sm" id="view-selector">
-            <SelectValue placeholder="Select a view" />
+            <SelectValue placeholder={t("selectView")} />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {VIEW_OPTIONS.map((option) => (
+              {viewOptions.map((option) => (
                 <SelectItem key={option.value} value={option.value}>
                   {option.label}
                 </SelectItem>
@@ -143,26 +144,26 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
           </SelectContent>
         </Select>
         <TabsList className="@4xl/main:flex hidden **:data-[slot=badge]:size-5 **:data-[slot=badge]:rounded-full **:data-[slot=badge]:bg-muted-foreground/30 **:data-[slot=badge]:px-1">
-          <TabsTrigger value="outline">Outline</TabsTrigger>
+          <TabsTrigger value="outline">{t("outline")}</TabsTrigger>
           <TabsTrigger value="past-performance">
-            Past Performance <Badge variant="secondary">3</Badge>
+            {t("pastPerformance")} <Badge variant="secondary">3</Badge>
           </TabsTrigger>
           <TabsTrigger value="key-personnel">
-            Key Personnel <Badge variant="secondary">2</Badge>
+            {t("keyPersonnel")} <Badge variant="secondary">2</Badge>
           </TabsTrigger>
-          <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
+          <TabsTrigger value="focus-documents">{t("focusDocuments")}</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="sm">
                 <Settings2 data-icon="inline-start" />
-                View
+                {t("viewButton")}
                 <ChevronDownIcon data-icon="inline-end" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-35">
-              <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
+              <DropdownMenuLabel>{t("toggleColumns")}</DropdownMenuLabel>
               <DropdownMenuSeparator />
               {table
                 .getAllColumns()
@@ -181,7 +182,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
           </DropdownMenu>
           <Button variant="outline" size="sm">
             <PlusIcon data-icon="inline-start" />
-            <span className="hidden lg:inline">Add Section</span>
+            <span className="hidden lg:inline">{t("addSection")}</span>
           </Button>
         </div>
       </div>
@@ -216,7 +217,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
                 ) : (
                   <TableRow>
                     <TableCell colSpan={table.getVisibleLeafColumns().length} className="h-24 text-center">
-                      No results.
+                      {t("noResults")}
                     </TableCell>
                   </TableRow>
                 )}
@@ -226,13 +227,15 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
         </div>
         <div className="flex items-center justify-between px-4">
           <div className="hidden flex-1 text-muted-foreground text-sm lg:flex">
-            {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-            selected.
+            {t("rowsSelectedInfo", {
+              selected: table.getFilteredSelectedRowModel().rows.length,
+              total: table.getFilteredRowModel().rows.length,
+            })}
           </div>
           <div className="flex w-full items-center gap-8 lg:w-fit">
             <div className="hidden items-center gap-2 lg:flex">
               <Label htmlFor="rows-per-page" className="font-medium text-sm">
-                Rows per page
+                {t("rowsPerPage")}
               </Label>
               <Select
                 value={`${table.getState().pagination.pageSize}`}
@@ -255,7 +258,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center font-medium text-sm">
-              Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+              {t("pageInfo", { page: table.getState().pagination.pageIndex + 1, total: table.getPageCount() })}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
               <Button
@@ -264,7 +267,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
                 onClick={() => table.setPageIndex(0)}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className="sr-only">Go to first page</span>
+                <span className="sr-only">{t("goToFirstPage")}</span>
                 <ChevronsLeftIcon />
               </Button>
               <Button
@@ -274,7 +277,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
               >
-                <span className="sr-only">Go to previous page</span>
+                <span className="sr-only">{t("goToPreviousPage")}</span>
                 <ChevronLeftIcon />
               </Button>
               <Button
@@ -284,7 +287,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
               >
-                <span className="sr-only">Go to next page</span>
+                <span className="sr-only">{t("goToNextPage")}</span>
                 <ChevronRightIcon />
               </Button>
               <Button
@@ -294,7 +297,7 @@ export function ProposalSectionsTable({ data: initialData }: { data: ProposalSec
                 onClick={() => table.setPageIndex(table.getPageCount() - 1)}
                 disabled={!table.getCanNextPage()}
               >
-                <span className="sr-only">Go to last page</span>
+                <span className="sr-only">{t("goToLastPage")}</span>
                 <ChevronsRightIcon />
               </Button>
             </div>

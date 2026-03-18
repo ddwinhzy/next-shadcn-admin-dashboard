@@ -123,8 +123,29 @@ npx @biomejs/biome check --write
 
 ---
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > This project is updated frequently. If you’re working from a fork or an older clone, pull the latest changes before syncing. Some updates may include breaking changes.
+
+---
+
+## 同步上游更新（中文本地化版）
+
+本仓库在 [`i18n/zh`](https://github.com/ddwinhzy/next-shadcn-admin-dashboard/tree/i18n/zh) 分支维护简体中文本地化。上游发布新版本后，执行一键同步：
+
+```bash
+./scripts/sync-upstream.sh
+```
+
+该脚本会自动完成：拉取上游最新代码 → 切换到 `i18n/zh` → rebase 到最新上游之上。
+
+如果遇到冲突，手动解决后继续：
+
+```bash
+git add <冲突文件>
+git rebase --continue
+```
+
+> 详细的手动恢复步骤见 [`docs/i18n/after-upstream-update.md`](docs/i18n/after-upstream-update.md)。
 
 ---
 
